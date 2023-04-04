@@ -47,31 +47,6 @@ def mask_data_loader (data, mask):
   miss_data_x[data_m == 0] = np.nan  
   return data_x, miss_data_x, data_m
 
-#data Loader
-def pandas_data_loader (data, miss_rate):
-  '''Loads datasets and introduce missingness.
-  
-  Args:
-    - data: a pandas dataset
-    - miss_rate: the probability of missing components
-    
-  Returns:
-    data_x: original data
-    miss_data_x: data with missing values
-    data_m: indicator matrix for missing components
-  '''
-  # Load data
-  data_x = data.to_numpy().astype(float)
-  no, dim = data_x.shape
-  data_m = already_missing_binary_sampler(1-miss_rate, data_x, no, dim)
-  miss_data_x = data_x.copy()
-  miss_data_x[data_m == 0] = np.nan  
-  df1 = data.astype(bool).astype(int)
-  df1.columns = data.columns  
-  MASK = df1 
-  return data_x, miss_data_x, data_m,MASK
-
-
 #Helper functions needed
 def normalization (data, parameters=None):
   '''Normalize data in [0, 1] range.
