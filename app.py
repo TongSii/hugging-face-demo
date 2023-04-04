@@ -15,7 +15,6 @@ tf.disable_v2_behavior()
 inputs = [
     #inputs for getting a file
     gr.File(label="CSV file"),
-    gr.Textbox(label="Google Colab file path"),
     #input for the structure of the data
     gr.CheckboxGroup(label="Does the data set have these?", choices=["Row Header", "Column Header"]),
     #input for the loss functions
@@ -36,7 +35,7 @@ outputs = [
 
 
 #Function
-def run_losses(csv_file, colabFilePath, header_list, loss_fn_list, miss_rate, batch_size, hint_rate, alpha, iterations):
+def run_losses(csv_file, header_list, loss_fn_list, miss_rate, batch_size, hint_rate, alpha, iterations):
   bestLossStr = "_"
   pd_loss_res = pd.DataFrame(columns=["Loss Function", "RMSE"])
   #making header inputs
@@ -46,8 +45,6 @@ def run_losses(csv_file, colabFilePath, header_list, loss_fn_list, miss_rate, ba
   #load the data
   if csv_file != None:
     data = pd.read_csv(csv_file.name, delimiter=',', index_col=row_header_input, header=col_header_input) 
-  elif colabFilePath != "":
-    data = pd.read_csv(colabFilePath, delimiter=',', index_col=row_header_input, header=col_header_input) 
   else:
     return "Didn't input a file path or file", pd_loss_res 
 
